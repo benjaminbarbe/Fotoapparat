@@ -3,6 +3,7 @@
 package io.fotoapparat.characteristic
 
 import android.hardware.Camera
+import android.hardware.camera2.CameraManager
 import io.fotoapparat.exception.camera.CameraException
 
 /**
@@ -31,9 +32,9 @@ internal fun Int.toLensPosition(): LensPosition =
  * @receiver [LensPosition]
  * @return code of the camera as in [Camera.CameraInfo].
  */
-fun LensPosition.toCameraId(): Int =
+fun LensPosition.toCameraId(cameraManager: CameraManager?): Int =
         (0 until Camera.getNumberOfCameras())
                 .find { cameraId ->
-                    this == getCharacteristics(cameraId).lensPosition
+                    this == getCharacteristics(cameraId, cameraManager).lensPosition
                 }
                 ?: throw CameraException("Device has no camera for the desired lens position(s).")

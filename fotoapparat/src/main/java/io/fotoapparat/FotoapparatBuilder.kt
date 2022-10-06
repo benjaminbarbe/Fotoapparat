@@ -1,6 +1,8 @@
 package io.fotoapparat
 
 import android.content.Context
+import android.hardware.camera2.CameraManager
+import android.os.Build
 import io.fotoapparat.configuration.CameraConfiguration
 import io.fotoapparat.error.CameraErrorCallback
 import io.fotoapparat.error.CameraErrorListener
@@ -188,8 +190,14 @@ class FotoapparatBuilder internal constructor(private var context: Context) {
             throw IllegalStateException("CameraRenderer is mandatory.")
         }
 
+        var cameraManager: CameraManager? = null
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            cameraManager = context.getSystemService(Context.CAMERA_SERVICE) as CameraManager
+        }
+
         return Fotoapparat(
                 context = context,
+                cameraManager = cameraManager,
                 view = renderer,
                 focusView = focusView,
                 lensPosition = lensPositionSelector,

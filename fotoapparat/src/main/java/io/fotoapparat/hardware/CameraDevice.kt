@@ -3,6 +3,7 @@
 package io.fotoapparat.hardware
 
 import android.hardware.Camera
+import android.hardware.camera2.CameraManager
 import android.media.MediaRecorder
 import android.view.Surface
 import androidx.annotation.FloatRange
@@ -40,6 +41,7 @@ typealias PreviewSize = io.fotoapparat.parameter.Resolution
  */
 internal open class CameraDevice(
         private val logger: Logger,
+        internal open val cameraManager: CameraManager?,
         val characteristics: Characteristics
 ) {
 
@@ -61,7 +63,7 @@ internal open class CameraDevice(
         logger.recordMethod()
 
         val lensPosition = characteristics.lensPosition
-        val cameraId = lensPosition.toCameraId()
+        val cameraId = lensPosition.toCameraId(cameraManager)
 
         try {
             camera = Camera.open(cameraId)

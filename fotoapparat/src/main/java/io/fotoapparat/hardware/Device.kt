@@ -3,6 +3,7 @@
 package io.fotoapparat.hardware
 
 import android.hardware.Camera
+import android.hardware.camera2.CameraManager
 import io.fotoapparat.characteristic.getCharacteristics
 import io.fotoapparat.concurrent.CameraExecutor
 import io.fotoapparat.configuration.CameraConfiguration
@@ -28,6 +29,7 @@ internal open class Device(
         private val display: Display,
         internal open val scaleType: ScaleType,
         internal open val cameraRenderer: CameraRenderer,
+        internal open val cameraManager: CameraManager?,
         internal val focusPointSelector: FocalPointSelector?,
         internal val executor: CameraExecutor,
         numberOfCameras: Int = Camera.getNumberOfCameras(),
@@ -37,7 +39,8 @@ internal open class Device(
     private val cameras = (0 until numberOfCameras).map { cameraId ->
         CameraDevice(
                 logger = logger,
-                characteristics = getCharacteristics(cameraId)
+                cameraManager = cameraManager,
+                characteristics = getCharacteristics(cameraId, cameraManager)
         )
     }
 

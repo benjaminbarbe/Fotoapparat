@@ -1,6 +1,7 @@
 package io.fotoapparat
 
 import android.content.Context
+import android.hardware.camera2.CameraManager
 import androidx.annotation.FloatRange
 import io.fotoapparat.concurrent.CameraExecutor
 import io.fotoapparat.concurrent.CameraExecutor.Operation
@@ -34,6 +35,7 @@ import io.fotoapparat.view.FocalPointSelector
 class Fotoapparat
 @JvmOverloads constructor(
         context: Context,
+        cameraManager: CameraManager? = null,
         view: CameraRenderer,
         focusView: FocalPointSelector? = null,
         lensPosition: LensPositionSelector = firstAvailable(
@@ -54,6 +56,7 @@ class Fotoapparat
 
     private val device = Device(
             cameraRenderer = view,
+            cameraManager = cameraManager,
             focusPointSelector = focusView,
             logger = logger,
             display = display,
