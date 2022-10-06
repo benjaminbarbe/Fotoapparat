@@ -19,7 +19,7 @@ internal open class Display(context: Context) {
     /**
      * Returns the orientation of the screen.
      */
-    open fun getOrientation(): Orientation = when (display.rotation) {
+    open fun getOrientation(): Orientation = when (display?.rotation) {
         Surface.ROTATION_0 -> Portrait
         Surface.ROTATION_90 -> Landscape
         Surface.ROTATION_180 -> ReversePortrait
